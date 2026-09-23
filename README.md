@@ -1,36 +1,86 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Mohamed Ali Jmal — Portfolio
 
-## Getting Started
+Personal portfolio of **Mohamed Ali Jmal** — Business Intelligence, Data, IT, Digital
+Marketing, Sales, Hospitality and Digital Projects.
 
-First, run the development server:
+Built with Next.js (App Router), TypeScript, Tailwind CSS v4, shadcn/ui (Base UI) and
+Framer Motion. Supports light/dark theming, is fully responsive, and is optimized for
+SEO and performance.
+
+## Tech stack
+
+- **Framework:** Next.js 16 (App Router, Turbopack)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS v4, shadcn/ui components (Base UI primitives)
+- **Animation:** Framer Motion
+- **Icons:** Lucide
+- **Fonts:** Barlow (via `next/font`)
+- **Theming:** `next-themes` (persisted light/dark toggle)
+
+## Getting started
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to view it.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Other scripts:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build   # production build
+npm run start   # run the production build locally
+npm run lint    # eslint
+```
 
-## Learn More
+## Project structure
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/
+  app/                  routes, layout, metadata, sitemap, robots, OG image
+  components/
+    layout/              navbar, footer, theme toggle
+    sections/             one component per homepage section (hero, about, skills, ...)
+    ui/                   shadcn/ui primitives + shared UI (Reveal, Section, SectionHeading)
+    providers/             theme provider
+    icons/                 custom brand icons (GitHub, LinkedIn)
+  data/                  editable content — see below
+  lib/                   utilities
+  types/                 shared TypeScript types
+public/
+  images/                project mockups + the "Selected Designs" gallery
+  videos/                hero background video
+  cv/                    downloadable CV (placeholder — replace with the real file)
+design-assets/originals/  full-resolution source design files (git-ignored, kept locally)
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Editing content
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Almost everything on the site is data-driven — you shouldn't need to touch component
+code to update copy. Edit the relevant file in `src/data/`:
 
-## Deploy on Vercel
+| File | Controls |
+|---|---|
+| `site.ts` | Name, headline, bio copy, CV path, hero stats |
+| `experience.ts` | Work experience timeline |
+| `education.ts` | Degree + career journey stages |
+| `skills.ts` | Skill categories and tags |
+| `projects.ts` | Project cards (name, description, tech, links, image) |
+| `designs.ts` | "Selected Designs" gallery items |
+| `what-i-do.ts` | "What I Do" cards + "How I Think" principles |
+| `social.ts` | Email / LinkedIn / GitHub / location links |
+| `nav.ts` | Navbar links |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+To add a new design to the gallery, drop an image in `public/images/designs/` and add
+an entry to `designs.ts` with its `width`/`height` (used for the masonry layout).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Deployment
+
+The project is ready to deploy as-is on [Vercel](https://vercel.com/new) — import the
+GitHub repo and it will auto-detect the Next.js settings. No environment variables are
+required.
+
+## License
+
+Personal project — all rights reserved.
