@@ -1,0 +1,65 @@
+import type { ExperienceItem } from "@/types";
+
+export const experience: ExperienceItem[] = [
+  {
+    company: "Hilton Doha",
+    location: "Doha, Qatar",
+    role: "Front Office Agent",
+    period: "2024 — Present",
+    current: true,
+    focus: [
+      "Front Office Operations",
+      "Guest Experience",
+      "Hilton Honors",
+      "Upselling",
+      "Service Recovery",
+      "PMS / OnQ",
+      "Customer Service",
+      "VIP Handling",
+      "Night Operations",
+    ],
+  },
+  {
+    company: "Best Delivery",
+    location: "Tunis, Tunisia",
+    role: "Sales & Social Media Manager",
+    period: "Feb 2024 — Jul 2024",
+    focus: [
+      "Customer Enquiries",
+      "Digital Sales",
+      "Order Conversion",
+      "Promotional Campaigns",
+      "Social Media",
+      "Sales Reporting",
+      "Customer Engagement",
+    ],
+  },
+  {
+    company: "Tunisian Red Crescent",
+    location: "Tunis, Tunisia",
+    role: "Head of Marketing & Commercial Department",
+    period: "Oct 2021 — Jan 2024",
+    focus: [
+      "Marketing Campaigns",
+      "Commercial Activities",
+      "Social Media",
+      "Events",
+      "Vendor Coordination",
+      "Stock Coordination",
+      "Communication",
+    ],
+  },
+  {
+    company: "Lac Sirops",
+    location: "Tunis, Tunisia",
+    role: "Sales & Customer Service Agent",
+    period: "Jun 2019 — Aug 2021",
+    focus: [
+      "Customer Service",
+      "Sales",
+      "Customer Relationships",
+      "Repeat Customers",
+      "Sales Targets",
+    ],
+  },
+];
