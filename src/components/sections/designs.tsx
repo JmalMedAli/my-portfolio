@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Section } from "@/components/ui/section";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Reveal } from "@/components/ui/reveal";
@@ -50,16 +50,16 @@ export function Designs() {
       </Reveal>
 
       <div className="mt-10 columns-1 gap-5 sm:columns-2 lg:columns-3">
-        {filtered.map((design, i) => {
-          const globalIndex = designs.findIndex((d) => d.id === design.id);
-          return (
+        <AnimatePresence mode="popLayout" initial={false}>
+          {filtered.map((design, i) => (
             <motion.button
               key={design.id}
               layout
               type="button"
-              onClick={() => setActiveIndex(globalIndex)}
+              onClick={() => setActiveIndex(i)}
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.96, transition: { duration: 0.2 } }}
               transition={{ duration: 0.4, delay: i * 0.03 }}
               className="group relative mb-5 block w-full overflow-hidden rounded-2xl border border-border text-left"
               style={{ aspectRatio: `${design.width} / ${design.height}` }}
@@ -80,11 +80,11 @@ export function Designs() {
                 </span>
               </div>
             </motion.button>
-          );
-        })}
+          ))}
+        </AnimatePresence>
       </div>
 
-      <DesignLightbox designs={designs} index={activeIndex} onIndexChange={setActiveIndex} />
+      <DesignLightbox designs={filtered} index={activeIndex} onIndexChange={setActiveIndex} />
     </Section>
   );
 }
