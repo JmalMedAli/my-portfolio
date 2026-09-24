@@ -1,10 +1,12 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import {
   ArrowUpRight,
   Download,
+  Pause,
+  Play,
   BarChart3,
   Database,
   Cpu,
@@ -30,6 +32,40 @@ const domains: { label: string; icon: IconComponent }[] = [
 export function Hero() {
   const shouldReduceMotion = useReducedMotion();
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const [isPlaying, setIsPlaying] = useState(true);
+
+  // Mirror the <video>'s own play/pause state rather than tracking it
+  // separately — the native events are the source of truth, whether the
+  // change came from toggleVideo() below or the reduced-motion effect.
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    const handlePlay = () => setIsPlaying(true);
+    const handlePause = () => setIsPlaying(false);
+    video.addEventListener("play", handlePlay);
+    video.addEventListener("pause", handlePause);
+    return () => {
+      video.removeEventListener("play", handlePlay);
+      video.removeEventListener("pause", handlePause);
+    };
+  }, []);
+
+  // Auto-pause the ambient background video for visitors who asked for
+  // reduced motion, in addition to the manual toggle below — see
+  // motion-audits/my-portfolio-2026-09-24.html finding 2.
+  useEffect(() => {
+    if (shouldReduceMotion) videoRef.current?.pause();
+  }, [shouldReduceMotion]);
+
+  const toggleVideo = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (video.paused) {
+      video.play();
+    } else {
+      video.pause();
+    }
+  };
 
   useEffect(() => {
     if (shouldReduceMotion) return;
@@ -156,6 +192,42 @@ export function Hero() {
         </span>
         <span className="h-10 w-px bg-gradient-to-b from-white/50 to-transparent" />
       </motion.div>
+
+      <motion.button
+        type="button"
+        onClick={toggleVideo}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: shouldReduceMotion ? 0 : 0.3, delay: 0.6 }}
+        aria-label={isPlaying ? "Pause background video" : "Play background video"}
+        className="absolute bottom-8 right-6 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-white/25 bg-white/5 text-white backdrop-blur-sm transition-colors hover:border-white hover:bg-white/10 md:right-10"
+      >
+        <AnimatePresence mode="wait" initial={false}>
+          {isPlaying ? (
+            <motion.span
+              key="pause"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ duration: shouldReduceMotion ? 0 : 0.15 }}
+              className="flex"
+            >
+              <Pause className="h-4 w-4" />
+            </motion.span>
+          ) : (
+            <motion.span
+              key="play"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ duration: shouldReduceMotion ? 0 : 0.15 }}
+              className="flex"
+            >
+              <Play className="h-4 w-4" />
+            </motion.span>
+          )}
+        </AnimatePresence>
+      </motion.button>
     </section>
   );
 }

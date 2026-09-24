@@ -169,7 +169,10 @@
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  animation: hero-shimmer 5s linear infinite;
+  /* Plays once on mount, then holds at the settled position — see
+     motion-audits/my-portfolio-2026-09-24.html finding 1. An infinite loop
+     here never lets the headline go unnoticed. */
+  animation: hero-shimmer 1.3s cubic-bezier(0.22, 1, 0.36, 1) 1 both;
 }
 
 @keyframes hero-shimmer {
@@ -177,6 +180,6 @@
     background-position: 200% center;
   }
   100% {
-    background-position: -200% center;
+    background-position: -70% center;
   }
 }
